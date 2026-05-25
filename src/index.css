@@ -1,0 +1,232 @@
+@import "tailwindcss";
+html {
+  scroll-behavior: smooth;
+}
+@theme {
+  --color-brand-purple: #43315d;
+  --color-brand-dark: #2d2141;
+  --color-brand-yellow: #ffc95e;
+  --color-brand-green: #1d331d;
+}
+@keyframes float {
+  0% { transform: translateY(0px) rotate(3deg); }
+  50% { transform: translateY(-15px) rotate(5deg); }
+  100% { transform: translateY(0px) rotate(3deg); }
+}
+
+.floating-hero {
+  animation: float 4s ease-in-out infinite;
+}
+@layer components {
+  /* The Animated Border Container */
+  .menu-card-animated {
+    @apply relative overflow-hidden transition-all duration-500;
+    padding: 2px; /* This defines the border thickness */
+    border-radius: 2.5rem; /* Matches your card's rounded corners */
+  }
+
+  /* The Rotating Light Gradient */
+  .menu-card-animated::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+      transparent,
+      rgba(255, 201, 94, 0.1),
+      #ffc95e, /* Your Gold Color */
+      rgba(255, 201, 94, 0.1),
+      transparent 60%
+    );
+    animation: rotate-border 4s linear infinite;
+    z-index: 0;
+  }
+
+  /* The Inner Card Cover (The dark part where content sits) */
+  .menu-card-animated::after {
+    content: '';
+    position: absolute;
+    inset: 2px; /* Thickness of the border */
+    @apply bg-[#1a0b2e]/80 backdrop-blur-xl rounded-[2.4rem];
+    z-index: 1;
+  }
+
+  /* Animation Keyframes */
+  @keyframes rotate-border {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* Hover Effects */
+  .menu-card-animated:hover {
+    box-shadow: 0 0 30px rgba(255, 201, 94, 0.2);
+  }
+
+  .menu-card-animated:hover::before {
+    animation-duration: 2s; /* Speeds up when you look at it */
+  }
+
+  /* Ensure the ProductCard inside stays above the pseudo-layers */
+  .menu-card-content {
+    @apply relative z-10;
+  }
+}
+@layer components {
+  /* --- STYLISH POST OVERLAY --- */
+  .post-card-container {
+    @apply relative overflow-hidden rounded-[3rem] cursor-pointer;
+    /* Keeps the shape elegant and vertical */
+    aspect-ratio: 4 / 5; 
+  }
+
+  .post-overlay {
+    @apply absolute inset-0 bg-black/85 backdrop-blur-md flex flex-col justify-center items-center p-10 transition-all duration-700 ease-in-out;
+    transform: translateY(101%);
+    opacity: 0;
+    z-index: 20;
+  }
+
+  .post-card-container:hover .post-overlay {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* --- TEAM CARD ANIMATED BORDER --- */
+  .menu-card-animated {
+    @apply relative overflow-hidden transition-all duration-500;
+    padding: 1px; /* Thin, elegant border */
+    border-radius: 2.5rem;
+  }
+
+  .menu-card-animated::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+      transparent, 
+      rgba(255, 201, 94, 0.1), 
+      #ffc95e, 
+      rgba(255, 201, 94, 0.1), 
+      transparent 60%
+    );
+    animation: rotate-border 6s linear infinite;
+    z-index: 0;
+  }
+
+  .menu-card-animated::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    @apply bg-black/60 backdrop-blur-xl rounded-[2.4rem];
+    z-index: 1;
+  }
+
+  @keyframes rotate-border {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .menu-card-content {
+    @apply relative z-10;
+  }
+
+  /* Utility for the Stylish font */
+  .font-serif {
+    font-family: 'Georgia', 'Times New Roman', serif;
+  }
+}
+@layer components {
+  /* --- POST OVERLAY (About Hero) --- */
+  .post-card-container {
+    @apply relative overflow-hidden rounded-[3rem] cursor-pointer;
+    aspect-ratio: 4 / 5; /* Matches the vertical poster look */
+  }
+
+  .post-overlay {
+    @apply absolute inset-0 bg-black/85 backdrop-blur-md flex flex-col justify-center items-center p-10 transition-all duration-700 ease-in-out;
+    transform: translateY(101%);
+    opacity: 0;
+    z-index: 20;
+  }
+
+  .post-card-container:hover .post-overlay {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* --- FLIP CARD LOGIC (Team) --- */
+  .flip-card-container {
+    perspective: 1200px;
+    /* This ensures cards don't get too wide on small tablets */
+    max-width: 280px; 
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .flip-card-inner {
+    @apply relative w-full h-full transition-transform duration-700;
+    transform-style: preserve-3d;
+  }
+
+  .flip-card-container:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .flip-card-front, .flip-card-back {
+    @apply absolute inset-0 w-full h-full;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 2.5rem;
+  }
+
+  .flip-card-front {
+    z-index: 2;
+  }
+
+  .flip-card-back {
+    transform: rotateY(180deg);
+    z-index: 1;
+    /* Stronger shadow for the back side to separate from background */
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+  }
+
+  /* --- ADJUSTED BORDER GLOW --- */
+  .menu-card-animated {
+    @apply relative overflow-hidden;
+    padding: 1.5px;
+  }
+
+  .menu-card-animated::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(transparent, rgba(255, 201, 94, 0.1), #ffc95e, rgba(255, 201, 94, 0.1), transparent 60%);
+    animation: rotate-border 6s linear infinite;
+    z-index: 0;
+  }
+
+  .menu-card-animated::after {
+    content: '';
+    position: absolute;
+    inset: 1.5px; /* Thinner border for smaller cards */
+    @apply bg-black/60 backdrop-blur-xl rounded-[2.4rem];
+    z-index: 1;
+  }
+
+  @keyframes rotate-border {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .menu-card-content {
+    @apply relative z-10;
+  }
+}
